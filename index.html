@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitty Bounce '98</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'MS Sans Serif', 'Microsoft Sans Serif', Arial, sans-serif;
+            background: #008080;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .window {
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .title-bar {
+            background: linear-gradient(to right, #000080, #1084d0);
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .title-text {
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            padding-left: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .title-icon {
+            width: 16px;
+            height: 16px;
+            image-rendering: pixelated;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .window-btn {
+            width: 18px;
+            height: 18px;
+            background: #c0c0c0;
+            border: 1px solid;
+            border-color: #ffffff #000000 #000000 #ffffff;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .window-btn:active {
+            border-color: #000000 #ffffff #ffffff #000000;
+        }
+
+        .menu-bar {
+            background: #c0c0c0;
+            border-bottom: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            padding: 2px 5px;
+            font-size: 13px;
+        }
+
+        .menu-item {
+            display: inline-block;
+            padding: 3px 8px;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            background: #000080;
+            color: white;
+        }
+
+        .toolbar {
+            background: #c0c0c0;
+            padding: 5px;
+            border-bottom: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .stat-group {
+            background: #ffffff;
+            border: 2px solid;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            padding: 4px 8px;
+            font-size: 13px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-label {
+            font-weight: bold;
+        }
+
+        .stat-value {
+            color: #000080;
+            font-weight: bold;
+        }
+
+        .content-area {
+            background: #c0c0c0;
+            padding: 8px;
+        }
+
+        .game-frame {
+            background: #ffffff;
+            border: 2px solid;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            position: relative;
+        }
+
+        canvas {
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #c0c0c0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+        }
+
+        .dialog-box {
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            padding: 15px;
+            min-width: 400px;
+        }
+
+        .dialog-title {
+            background: linear-gradient(to right, #000080, #1084d0);
+            color: white;
+            padding: 3px 5px;
+            font-weight: bold;
+            font-size: 14px;
+            margin: -15px -15px 10px -15px;
+        }
+
+        .dialog-content {
+            padding: 15px;
+            background: #ffffff;
+            border: 2px solid;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            margin-bottom: 15px;
+        }
+
+        .dialog-content h2 {
+            color: #000080;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+            background: #f0f0f0;
+            border: 1px solid #808080;
+        }
+
+        .kitty-preview {
+            width: 32px;
+            height: 32px;
+            image-rendering: pixelated;
+        }
+
+        .legend-text {
+            font-size: 12px;
+        }
+
+        .win98-btn {
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #000000 #000000 #ffffff;
+            padding: 8px 20px;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: bold;
+            min-width: 80px;
+        }
+
+        .win98-btn:hover {
+            background: #d4d4d4;
+        }
+
+        .win98-btn:active {
+            border-color: #000000 #ffffff #ffffff #000000;
+            padding: 9px 19px 7px 21px;
+        }
+
+        .status-bar {
+            background: #c0c0c0;
+            border-top: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            padding: 3px 5px;
+            font-size: 12px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .status-section {
+            border: 2px solid;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            padding: 2px 8px;
+        }
+
+        .game-over-screen {
+            display: none;
+        }
+
+        .collectible-info {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+        .collectible-badge {
+            background: #f0f0f0;
+            border: 1px solid #808080;
+            padding: 5px 8px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        @media (max-width: 900px) {
+            .dialog-box {
+                min-width: auto;
+                max-width: 90vw;
+            }
+
+            .legend {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <div class="title-text">
+                <span>🐱</span>
+                <span>Kitty Bounce '98</span>
+            </div>
+            <div class="window-controls">
+                <div class="window-btn">_</div>
+                <div class="window-btn">□</div>
+                <div class="window-btn" onclick="if(confirm('Are you sure you want to quit?')) window.close()">×</div>
+            </div>
+        </div>
+
+        <div class="menu-bar">
+            <span class="menu-item">File</span>
+            <span class="menu-item">Game</span>
+            <span class="menu-item">Options</span>
+            <span class="menu-item">Help</span>
+        </div>
+
+        <div class="toolbar">
+            <div class="stat-group">
+                <div class="stat-item">
+                    <span class="stat-label">Score:</span>
+                    <span class="stat-value" id="score">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Lives:</span>
+                    <span class="stat-value" id="lives">3</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">High Score:</span>
+                    <span class="stat-value" id="highScore">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Level:</span>
+                    <span class="stat-value" id="level">1</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="game-frame">
+                <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+                <div class="overlay" id="startScreen">
+                    <div class="dialog-box">
+                        <div class="dialog-title">Kitty Bounce '98 - New Game</div>
+                        <div class="dialog-content">
+                            <h2>Welcome to Kitty Bounce!</h2>
+                            <p><strong>Controls:</strong> Use Mouse or Arrow Keys (← →)</p>
+                            <p style="margin-top: 10px;"><strong>Objective:</strong> Bounce kitties and collect items!</p>
+
+                            <div style="margin-top: 15px;">
+                                <strong>Meet the Kitties:</strong>
+                                <div class="legend">
+                                    <div class="legend-item">
+                                        <canvas class="kitty-preview" id="preview1" width="32" height="32"></canvas>
+                                        <div class="legend-text">
+                                            <strong>Orange Tabby</strong><br>
+                                            <small>10 pts • Common</small>
+                                        </div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <canvas class="kitty-preview" id="preview2" width="32" height="32"></canvas>
+                                        <div class="legend-text">
+                                            <strong>Black Cat</strong><br>
+                                            <small>20 pts • Uncommon</small>
+                                        </div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <canvas class="kitty-preview" id="preview3" width="32" height="32"></canvas>
+                                        <div class="legend-text">
+                                            <strong>White Cat</strong><br>
+                                            <small>30 pts • Rare</small>
+                                        </div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <canvas class="kitty-preview" id="preview4" width="32" height="32"></canvas>
+                                        <div class="legend-text">
+                                            <strong>Calico</strong><br>
+                                            <small>50 pts • Very Rare</small>
+                                        </div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <canvas class="kitty-preview" id="preview5" width="32" height="32"></canvas>
+                                        <div class="legend-text">
+                                            <strong>Golden Cat</strong><br>
+                                            <small>100 pts • Legendary!</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 15px;">
+                                <strong>Collectibles:</strong>
+                                <div class="collectible-info">
+                                    <div class="collectible-badge">🐟 Fish +5</div>
+                                    <div class="collectible-badge">🧶 Yarn +10</div>
+                                    <div class="collectible-badge">💝 Heart +15</div>
+                                    <div class="collectible-badge">⭐ Star +25</div>
+                                </div>
+                            </div>
+                        </div>
+                        <center>
+                            <button class="win98-btn" onclick="startGame()">Start Game</button>
+                        </center>
+                    </div>
+                </div>
+
+                <div class="overlay game-over-screen" id="gameOverScreen">
+                    <div class="dialog-box">
+                        <div class="dialog-title">Game Over</div>
+                        <div class="dialog-content">
+                            <h2>Game Over!</h2>
+                            <p style="font-size: 16px; margin: 15px 0;">
+                                <strong>Final Score:</strong> <span id="finalScore" style="color: #000080; font-size: 24px;">0</span>
+                            </p>
+                            <p>
+                                <strong>Level Reached:</strong> <span id="finalLevel">1</span>
+                            </p>
+                        </div>
+                        <center>
+                            <button class="win98-btn" onclick="restartGame()">Play Again</button>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-section">Ready</div>
+            <div class="status-section" id="statusMessage">Press Start to begin</div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
+
+        // Game state
+        let gameRunning = false;
+        let animationId = null;
+        let score = 0;
+        let lives = 3;
+        let level = 1;
+        let highScore = localStorage.getItem('kittyBounce98HighScore') || 0;
+        document.getElementById('highScore').textContent = highScore;
+
+        // Define kitty types with pixel art
+        const kittyTypes = [
+            { name: 'Orange Tabby', color: '#FF8C00', stripes: '#D2691E', points: 10, weight: 40, speed: 1 },
+            { name: 'Black Cat', color: '#1a1a1a', stripes: '#000000', points: 20, weight: 30, speed: 1.2 },
+            { name: 'White Cat', color: '#FFFFFF', stripes: '#F0F0F0', points: 30, weight: 15, speed: 1.4 },
+            { name: 'Calico', color: '#FF6B35', stripes: '#1a1a1a', points: 50, weight: 10, speed: 1.6 },
+            { name: 'Golden Cat', color: '#FFD700', stripes: '#FFA500', points: 100, weight: 5, speed: 2 }
+        ];
+
+        // Paddle
+        const paddle = {
+            x: canvas.width / 2 - 60,
+            y: canvas.height - 30,
+            width: 120,
+            height: 15,
+            speed: 8,
+            dx: 0
+        };
+
+        // Kitties (multiple!)
+        let kitties = [];
+
+        // Collectibles
+        let collectibles = [];
+        const collectibleTypes = [
+            { icon: '🐟', points: 5, weight: 40 },
+            { icon: '🧶', points: 10, weight: 30 },
+            { icon: '💝', points: 15, weight: 20 },
+            { icon: '⭐', points: 25, weight: 10 }
+        ];
+
+        let lastCollectibleTime = 0;
+        const collectibleInterval = 2500;
+
+        // Input
+        let keys = {};
+        let mouseX = canvas.width / 2;
+
+        document.addEventListener('keydown', (e) => {
+            keys[e.key] = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            keys[e.key] = false;
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+        });
+
+        // Draw pixel art kitty
+        function drawPixelKitty(ctx, x, y, size, type) {
+            const pixelSize = size / 16;
+
+            // Kitty pixel pattern (16x16)
+            const pattern = [
+                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,0],
+                [0,1,2,2,1,0,0,0,0,0,0,1,2,2,1,0],
+                [0,1,2,2,2,1,1,1,1,1,1,2,2,2,1,0],
+                [0,0,1,2,2,2,2,2,2,2,2,2,2,1,0,0],
+                [0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
+                [0,0,1,2,2,3,3,2,2,3,3,2,2,1,0,0],
+                [0,0,1,2,2,3,3,2,2,3,3,2,2,1,0,0],
+                [0,0,1,2,2,2,2,2,2,2,2,2,2,1,0,0],
+                [0,0,1,2,2,2,4,4,4,4,2,2,2,1,0,0],
+                [0,0,1,2,2,4,2,2,2,2,4,2,2,1,0,0],
+                [0,0,1,2,2,2,4,4,4,4,2,2,2,1,0,0],
+                [0,0,0,1,2,2,2,2,2,2,2,2,1,0,0,0],
+                [0,0,0,0,1,1,2,2,2,2,1,1,0,0,0,0],
+                [0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+            ];
+
+            const colors = {
+                0: 'transparent',
+                1: '#000000',        // outline
+                2: type.color,       // main color
+                3: '#000000',        // eyes
+                4: '#FF69B4'         // nose/mouth
+            };
+
+            // Add stripes for tabby patterns
+            if (type.name === 'Orange Tabby' || type.name === 'Calico') {
+                for (let row = 0; row < 16; row++) {
+                    for (let col = 0; col < 16; col++) {
+                        if (pattern[row][col] === 2 && (row % 3 === 0 || col % 4 === 0)) {
+                            ctx.fillStyle = type.stripes;
+                            ctx.fillRect(x - size/2 + col * pixelSize, y - size/2 + row * pixelSize, pixelSize, pixelSize);
+                        }
+                    }
+                }
+            }
+
+            // Draw main pattern
+            for (let row = 0; row < 16; row++) {
+                for (let col = 0; col < 16; col++) {
+                    const colorKey = pattern[row][col];
+                    if (colorKey !== 0) {
+                        ctx.fillStyle = colors[colorKey];
+                        ctx.fillRect(x - size/2 + col * pixelSize, y - size/2 + row * pixelSize, pixelSize, pixelSize);
+                    }
+                }
+            }
+        }
+
+        // Initialize preview kitties
+        function initPreviews() {
+            kittyTypes.forEach((type, index) => {
+                const previewCanvas = document.getElementById(`preview${index + 1}`);
+                if (previewCanvas) {
+                    const previewCtx = previewCanvas.getContext('2d');
+                    previewCtx.imageSmoothingEnabled = false;
+                    drawPixelKitty(previewCtx, 16, 16, 24, type);
+                }
+            });
+        }
+
+        initPreviews();
+
+        function spawnKitty() {
+            const totalWeight = kittyTypes.reduce((sum, type) => sum + type.weight, 0);
+            let random = Math.random() * totalWeight;
+
+            let selectedType = kittyTypes[0];
+            for (let type of kittyTypes) {
+                random -= type.weight;
+                if (random <= 0) {
+                    selectedType = type;
+                    break;
+                }
+            }
+
+            const kitty = {
+                x: Math.random() * (canvas.width - 60) + 30,
+                y: 100,
+                radius: 20,
+                dx: (Math.random() - 0.5) * 6,
+                dy: 3 + Math.random() * 2,
+                type: selectedType,
+                rotation: 0
+            };
+
+            kitties.push(kitty);
+            updateStatus(`${selectedType.name} appeared! Worth ${selectedType.points} pts`);
+        }
+
+        function spawnCollectible() {
+            const totalWeight = collectibleTypes.reduce((sum, type) => sum + type.weight, 0);
+            let random = Math.random() * totalWeight;
+
+            let selectedType = collectibleTypes[0];
+            for (let type of collectibleTypes) {
+                random -= type.weight;
+                if (random <= 0) {
+                    selectedType = type;
+                    break;
+                }
+            }
+
+            collectibles.push({
+                x: Math.random() * (canvas.width - 40) + 20,
+                y: -30,
+                size: 20,
+                type: selectedType,
+                dy: 2 + Math.random() * 2
+            });
+        }
+
+        function startGame() {
+            document.getElementById('startScreen').style.display = 'none';
+            gameRunning = true;
+            lastCollectibleTime = Date.now();
+            resetGame();
+            spawnKitty();
+            gameLoop();
+            updateStatus('Game started! Use mouse or arrow keys');
+        }
+
+        function restartGame() {
+            console.log('Restarting game...');
+
+            // Stop any running game and cancel animations
+            gameRunning = false;
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+
+            // Hide game over screen
+            document.getElementById('gameOverScreen').style.display = 'none';
+
+            // Reset all game state
+            score = 0;
+            lives = 3;
+            level = 1;
+            kitties = [];
+            collectibles = [];
+            lastCollectibleTime = Date.now();
+
+            // Update UI
+            updateScore();
+            updateLives();
+            updateLevel();
+
+            // Reset paddle position
+            resetGame();
+
+            // Clear canvas and draw background
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            drawPaddle();
+
+            // Spawn first kitty
+            spawnKitty();
+            console.log('Kitty spawned:', kitties.length);
+
+            // Start game
+            gameRunning = true;
+            updateStatus('Game restarted! Good luck!');
+
+            // Start game loop immediately
+            animationId = requestAnimationFrame(gameLoop);
+            console.log('Game loop started');
+        }
+
+        function resetGame() {
+            paddle.x = canvas.width / 2 - paddle.width / 2;
+        }
+
+        function updatePaddle() {
+            if (keys['ArrowLeft'] && paddle.x > 0) {
+                paddle.x -= paddle.speed;
+            }
+            if (keys['ArrowRight'] && paddle.x + paddle.width < canvas.width) {
+                paddle.x += paddle.speed;
+            }
+
+            const targetX = mouseX - paddle.width / 2;
+            const diff = targetX - paddle.x;
+            paddle.x += diff * 0.2;
+
+            if (paddle.x < 0) paddle.x = 0;
+            if (paddle.x + paddle.width > canvas.width) paddle.x = canvas.width - paddle.width;
+        }
+
+        function updateKitties() {
+            for (let i = kitties.length - 1; i >= 0; i--) {
+                const kitty = kitties[i];
+
+                kitty.x += kitty.dx * kitty.type.speed;
+                kitty.y += kitty.dy * kitty.type.speed;
+                kitty.rotation += 0.05;
+
+                // Wall collision
+                if (kitty.x + kitty.radius > canvas.width || kitty.x - kitty.radius < 0) {
+                    kitty.dx *= -1;
+                }
+
+                // Top collision
+                if (kitty.y - kitty.radius < 0) {
+                    kitty.dy *= -1;
+                }
+
+                // Paddle collision
+                if (
+                    kitty.y + kitty.radius > paddle.y &&
+                    kitty.y + kitty.radius < paddle.y + paddle.height &&
+                    kitty.x > paddle.x &&
+                    kitty.x < paddle.x + paddle.width
+                ) {
+                    kitty.dy = -Math.abs(kitty.dy);
+                    const hitPos = (kitty.x - paddle.x) / paddle.width;
+                    kitty.dx = (hitPos - 0.5) * 8;
+
+                    score += kitty.type.points;
+                    updateScore();
+                    updateStatus(`Bounced ${kitty.type.name}! +${kitty.type.points} pts`);
+                }
+
+                // Bottom boundary
+                if (kitty.y - kitty.radius > canvas.height) {
+                    kitties.splice(i, 1);
+                    lives--;
+                    updateLives();
+                    updateStatus(`Lost a ${kitty.type.name}! -1 life`);
+
+                    if (lives <= 0) {
+                        gameOver();
+                    } else if (kitties.length === 0) {
+                        setTimeout(() => spawnKitty(), 500);
+                    }
+                }
+            }
+
+            // Spawn new kitty occasionally
+            if (kitties.length < level && Math.random() < 0.003) {
+                spawnKitty();
+            }
+        }
+
+        function updateCollectibles() {
+            const currentTime = Date.now();
+            if (currentTime - lastCollectibleTime > collectibleInterval) {
+                spawnCollectible();
+                lastCollectibleTime = currentTime;
+            }
+
+            for (let i = collectibles.length - 1; i >= 0; i--) {
+                const c = collectibles[i];
+                c.y += c.dy;
+
+                // Check collision with any kitty
+                for (let kitty of kitties) {
+                    const dist = Math.hypot(kitty.x - c.x, kitty.y - c.y);
+                    if (dist < kitty.radius + c.size / 2) {
+                        score += c.type.points;
+                        updateScore();
+                        updateStatus(`Collected ${c.type.icon}! +${c.type.points} pts`);
+                        collectibles.splice(i, 1);
+                        break;
+                    }
+                }
+
+                if (c.y > canvas.height + 50) {
+                    collectibles.splice(i, 1);
+                }
+            }
+        }
+
+        function drawPaddle() {
+            // Windows 95 style 3D button
+            ctx.fillStyle = '#c0c0c0';
+            ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+
+            // Highlight
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(paddle.x, paddle.y + paddle.height);
+            ctx.lineTo(paddle.x, paddle.y);
+            ctx.lineTo(paddle.x + paddle.width, paddle.y);
+            ctx.stroke();
+
+            // Shadow
+            ctx.strokeStyle = '#808080';
+            ctx.beginPath();
+            ctx.moveTo(paddle.x + paddle.width, paddle.y);
+            ctx.lineTo(paddle.x + paddle.width, paddle.y + paddle.height);
+            ctx.lineTo(paddle.x, paddle.y + paddle.height);
+            ctx.stroke();
+        }
+
+        function drawKitties() {
+            kitties.forEach(kitty => {
+                ctx.save();
+                ctx.translate(kitty.x, kitty.y);
+                ctx.rotate(kitty.rotation);
+                ctx.translate(-kitty.x, -kitty.y);
+                drawPixelKitty(ctx, kitty.x, kitty.y, kitty.radius * 2, kitty.type);
+                ctx.restore();
+            });
+        }
+
+        function drawCollectibles() {
+            ctx.font = '20px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            collectibles.forEach(c => {
+                ctx.fillText(c.type.icon, c.x, c.y);
+            });
+        }
+
+        function drawBackground() {
+            // Checkered pattern like old Windows games
+            ctx.fillStyle = '#e0e0e0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#f0f0f0';
+            const gridSize = 20;
+            for (let y = 0; y < canvas.height; y += gridSize) {
+                for (let x = 0; x < canvas.width; x += gridSize) {
+                    if ((x + y) / gridSize % 2 === 0) {
+                        ctx.fillRect(x, y, gridSize, gridSize);
+                    }
+                }
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('kittyBounce98HighScore', highScore);
+                document.getElementById('highScore').textContent = highScore;
+            }
+
+            // Level up every 200 points
+            const newLevel = Math.floor(score / 200) + 1;
+            if (newLevel > level) {
+                level = newLevel;
+                updateLevel();
+                updateStatus(`Level Up! Now at Level ${level}`);
+            }
+        }
+
+        function updateLives() {
+            document.getElementById('lives').textContent = lives;
+        }
+
+        function updateLevel() {
+            document.getElementById('level').textContent = level;
+        }
+
+        function updateStatus(message) {
+            document.getElementById('statusMessage').textContent = message;
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalLevel').textContent = level;
+            document.getElementById('gameOverScreen').style.display = 'flex';
+            updateStatus('Game Over');
+        }
+
+        function gameLoop() {
+            if (!gameRunning) {
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                }
+                return;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawBackground();
+            updatePaddle();
+            updateKitties();
+            updateCollectibles();
+
+            drawCollectibles();
+            drawKitties();
+            drawPaddle();
+
+            animationId = requestAnimationFrame(gameLoop);
+        }
+    </script>
+</body>
+</html>
