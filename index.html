@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kitty Bounce '98</title>
     <style>
+        :root {
+            --theme-primary: #000080;
+            --theme-secondary: #008080;
+            --theme-accent: #c0c0c0;
+            --theme-text: #000000;
+            --theme-bg: #c0c0c0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,15 +21,137 @@
 
         body {
             font-family: 'MS Sans Serif', 'Microsoft Sans Serif', Arial, sans-serif;
-            background: #008080;
+            background: var(--theme-secondary);
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             padding: 20px;
+            transition: background 0.5s ease;
+        }
+
+        /* Retro theme (default/pixel art) */
+        body.theme-retro {
             image-rendering: pixelated;
             image-rendering: -moz-crisp-edges;
             image-rendering: crisp-edges;
+        }
+
+        /* Frutiger Aero theme */
+        body.theme-aero {
+            background: linear-gradient(135deg, #B5E3FF 0%, #7FBA00 100%);
+            image-rendering: auto;
+        }
+
+        body.theme-aero .window {
+            background: rgba(240, 248, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 120, 215, 0.3);
+        }
+
+        body.theme-aero .title-bar {
+            background: linear-gradient(180deg, rgba(0, 120, 215, 0.9) 0%, rgba(0, 188, 242, 0.9) 100%);
+            border-radius: 12px 12px 0 0;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        body.theme-aero .win98-btn {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(0, 120, 215, 0.7) 100%);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 2px 8px rgba(0, 120, 215, 0.3);
+            color: #000;
+        }
+
+        body.theme-aero .win98-btn:hover {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(0, 120, 215, 0.8) 100%);
+            box-shadow: 0 4px 12px rgba(0, 120, 215, 0.4);
+        }
+
+        body.theme-aero .menu-bar,
+        body.theme-aero .toolbar,
+        body.theme-aero .status-bar,
+        body.theme-aero .content-area {
+            background: rgba(255, 255, 255, 0.6);
+            border: none;
+        }
+
+        body.theme-aero .stat-group {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 6px;
+            border: 1px solid rgba(0, 120, 215, 0.2);
+        }
+
+        /* Y2K Edgy theme */
+        body.theme-y2k {
+            background: linear-gradient(135deg, #000000 0%, #1a0033 50%, #000000 100%);
+            image-rendering: auto;
+        }
+
+        body.theme-y2k .window {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #FF1493, #00FFFF, #FF1493) 1;
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.5), 0 0 60px rgba(0, 255, 255, 0.3);
+            clip-path: polygon(
+                0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px,
+                100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px)
+            );
+        }
+
+        body.theme-y2k .title-bar {
+            background: linear-gradient(90deg,
+                #FF1493 0%, #00FFFF 25%, #FF1493 50%, #00FFFF 75%, #FF1493 100%);
+            background-size: 200% 100%;
+            animation: y2k-shimmer 3s linear infinite;
+            box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes y2k-shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        body.theme-y2k .win98-btn {
+            background: linear-gradient(145deg, #C0C0C0 0%, #808080 50%, #C0C0C0 100%);
+            border: 2px solid #00FFFF;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            color: #00FFFF;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.8);
+            clip-path: polygon(
+                4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px),
+                calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px
+            );
+        }
+
+        body.theme-y2k .win98-btn:hover {
+            background: linear-gradient(145deg, #E0E0E0 0%, #A0A0A0 50%, #E0E0E0 100%);
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            border-color: #FF1493;
+            color: #FF1493;
+            text-shadow: 0 0 8px rgba(255, 20, 147, 0.8);
+        }
+
+        body.theme-y2k .menu-bar,
+        body.theme-y2k .toolbar,
+        body.theme-y2k .status-bar,
+        body.theme-y2k .content-area {
+            background: rgba(0, 0, 0, 0.8);
+            border-color: #00FFFF;
+        }
+
+        body.theme-y2k .stat-group {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #FF1493;
+            box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+        }
+
+        body.theme-y2k .stat-value,
+        body.theme-y2k .stat-label {
+            color: #00FFFF;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
         }
 
         .window {
@@ -31,6 +161,31 @@
             box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
             max-width: 900px;
             width: 100%;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .window.minimized {
+            max-height: 40px;
+        }
+
+        .window.minimized .menu-bar,
+        .window.minimized .toolbar,
+        .window.minimized .content-area,
+        .window.minimized .status-bar {
+            display: none;
+        }
+
+        .window.maximized {
+            max-width: 100%;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .window.maximized canvas {
+            width: 100%;
+            height: calc(100vh - 160px);
         }
 
         .title-bar {
@@ -86,17 +241,54 @@
             border-color: #dfdfdf #808080 #808080 #dfdfdf;
             padding: 2px 5px;
             font-size: 13px;
+            position: relative;
         }
 
         .menu-item {
             display: inline-block;
             padding: 3px 8px;
             cursor: pointer;
+            position: relative;
         }
 
-        .menu-item:hover {
+        .menu-item:hover, .menu-item.active {
             background: #000080;
             color: white;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+            min-width: 180px;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 5px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .dropdown-item:hover {
+            background: #000080;
+            color: white;
+        }
+
+        .dropdown-separator {
+            height: 0;
+            border-top: 1px solid #808080;
+            border-bottom: 1px solid #dfdfdf;
+            margin: 2px 0;
         }
 
         .toolbar {
@@ -137,6 +329,8 @@
         .content-area {
             background: #c0c0c0;
             padding: 8px;
+            display: flex;
+            justify-content: center;
         }
 
         .game-frame {
@@ -144,6 +338,7 @@
             border: 2px solid;
             border-color: #808080 #dfdfdf #dfdfdf #808080;
             position: relative;
+            width: fit-content;
         }
 
         canvas {
@@ -266,6 +461,116 @@
             display: none;
         }
 
+        .pause-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pause-overlay.show {
+            display: flex;
+        }
+
+        .pause-message {
+            background: #c0c0c0;
+            border: 3px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            padding: 30px 50px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #000080;
+            text-align: center;
+        }
+
+        .settings-dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            min-width: 500px;
+        }
+
+        .settings-dialog.show {
+            display: block;
+        }
+
+        .theme-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .theme-card {
+            background: #f0f0f0;
+            border: 3px solid #808080;
+            padding: 15px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .theme-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-card.selected {
+            border-color: #000080;
+            background: #d4d4ff;
+            box-shadow: 0 0 10px rgba(0, 0, 128, 0.3);
+        }
+
+        .theme-preview {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 10px;
+            border: 2px solid #808080;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+
+        .theme-card-retro .theme-preview {
+            background: #008080;
+            image-rendering: pixelated;
+        }
+
+        .theme-card-aero .theme-preview {
+            background: linear-gradient(135deg, #B5E3FF 0%, #7FBA00 100%);
+            border-radius: 8px;
+        }
+
+        .theme-card-y2k .theme-preview {
+            background: linear-gradient(135deg, #000000 0%, #1a0033 100%);
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+        }
+
+        .settings-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        .settings-overlay.show {
+            display: block;
+        }
+
         .collectible-info {
             display: flex;
             gap: 8px;
@@ -336,17 +641,51 @@
                 <span>Kitty Bounce '98</span>
             </div>
             <div class="window-controls">
-                <div class="window-btn">_</div>
-                <div class="window-btn">□</div>
+                <div class="window-btn" onclick="minimizeWindow()">_</div>
+                <div class="window-btn" onclick="maximizeWindow()">□</div>
                 <div class="window-btn" onclick="if(confirm('Are you sure you want to quit?')) window.close()">×</div>
             </div>
         </div>
 
         <div class="menu-bar">
-            <span class="menu-item">File</span>
-            <span class="menu-item">Game</span>
-            <span class="menu-item">Options</span>
-            <span class="menu-item">Help</span>
+            <span class="menu-item" id="fileMenu">
+                File
+                <div class="dropdown-menu" id="fileDropdown">
+                    <div class="dropdown-item" onclick="newGame()">New Game</div>
+                    <div class="dropdown-item" onclick="viewHighScores()">High Scores</div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" onclick="exitGame()">Exit</div>
+                </div>
+            </span>
+            <span class="menu-item" id="gameMenu">
+                Game
+                <div class="dropdown-menu" id="gameDropdown">
+                    <div class="dropdown-item" onclick="togglePause()">Pause/Resume</div>
+                    <div class="dropdown-item" onclick="restartCurrentGame()">Restart</div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" onclick="showDifficultySettings()">Difficulty Settings</div>
+                </div>
+            </span>
+            <span class="menu-item" id="optionsMenu">
+                Options
+                <div class="dropdown-menu" id="optionsDropdown">
+                    <div class="dropdown-item" onclick="showSettings()">UI Settings</div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" onclick="toggleSound()">Sound: <span id="soundStatus">ON</span></div>
+                    <div class="dropdown-item" onclick="toggleMusic()">Music: <span id="musicStatus">ON</span></div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" onclick="showVolumeControls()">Volume Controls</div>
+                </div>
+            </span>
+            <span class="menu-item" id="helpMenu">
+                Help
+                <div class="dropdown-menu" id="helpDropdown">
+                    <div class="dropdown-item" onclick="showHowToPlay()">How to Play</div>
+                    <div class="dropdown-item" onclick="showControls()">Controls Reference</div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" onclick="showAbout()">About</div>
+                </div>
+            </span>
         </div>
 
         <div class="toolbar">
@@ -481,12 +820,54 @@
                         </center>
                     </div>
                 </div>
+
+                <div class="pause-overlay" id="pauseOverlay">
+                    <div class="pause-message">
+                        ⏸️ PAUSED ⏸️<br>
+                        <span style="font-size: 18px; font-weight: normal;">Press ESC or Spacebar to resume</span>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="status-bar">
             <div class="status-section">Ready</div>
             <div class="status-section" id="statusMessage">Press Start to begin</div>
+        </div>
+    </div>
+
+    <!-- Settings Dialog -->
+    <div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()"></div>
+    <div class="settings-dialog" id="settingsDialog">
+        <div class="dialog-box">
+            <div class="dialog-title">⚙️ UI Settings</div>
+            <div class="dialog-content">
+                <h2>Choose Your UI Style</h2>
+                <p style="margin-bottom: 15px;">Select a visual theme for your gaming experience</p>
+
+                <div class="theme-selector">
+                    <div class="theme-card theme-card-retro" onclick="selectTheme('retro')">
+                        <div class="theme-preview">🎮</div>
+                        <strong>Retro Pixel</strong><br>
+                        <small>Classic Windows 98</small>
+                    </div>
+
+                    <div class="theme-card theme-card-aero" onclick="selectTheme('aero')">
+                        <div class="theme-preview">💎</div>
+                        <strong>Frutiger Aero</strong><br>
+                        <small>Mid-2000s Vista/7</small>
+                    </div>
+
+                    <div class="theme-card theme-card-y2k" onclick="selectTheme('y2k')">
+                        <div class="theme-preview">⚡</div>
+                        <strong>Y2K Edgy</strong><br>
+                        <small>Cyber Chrome</small>
+                    </div>
+                </div>
+            </div>
+            <center>
+                <button class="win98-btn" onclick="closeSettings()">Close</button>
+            </center>
         </div>
     </div>
 
@@ -497,12 +878,296 @@
 
         // Game state
         let gameRunning = false;
+        let gamePaused = false;
         let animationId = null;
         let score = 0;
         let lives = 3;
         let level = 1;
+        let difficulty = 'medium'; // easy, medium, hard
+        let soundEnabled = true;
+        let musicEnabled = true;
+        let masterVolume = 0.7;
         let highScore = localStorage.getItem('kittyBounce98HighScore') || 0;
         document.getElementById('highScore').textContent = highScore;
+
+        // Theme System
+        let currentTheme = localStorage.getItem('kittyBounce98Theme') || 'retro';
+
+        const themes = {
+            retro: {
+                name: 'Retro Pixel',
+                description: 'Classic Windows 98 pixel art style',
+                colors: {
+                    primary: '#000080',
+                    secondary: '#008080',
+                    accent: '#c0c0c0',
+                    text: '#000000',
+                    bg: '#c0c0c0'
+                }
+            },
+            aero: {
+                name: 'Frutiger Aero',
+                description: 'Mid-2000s glossy Vista/7 aesthetic',
+                colors: {
+                    primary: '#0078D7',
+                    secondary: '#00BCF2',
+                    accent: '#7FBA00',
+                    text: '#FFFFFF',
+                    bg: 'rgba(240, 248, 255, 0.9)'
+                }
+            },
+            y2k: {
+                name: 'Y2K Edgy',
+                description: 'Late 90s cyber chrome aesthetic',
+                colors: {
+                    primary: '#FF1493',
+                    secondary: '#00FFFF',
+                    accent: '#C0C0C0',
+                    text: '#00FFFF',
+                    bg: '#000000'
+                }
+            }
+        };
+
+        function applyTheme(themeName) {
+            currentTheme = themeName;
+            localStorage.setItem('kittyBounce98Theme', themeName);
+
+            const root = document.documentElement;
+            const theme = themes[themeName];
+
+            // Apply CSS variables for UI
+            root.style.setProperty('--theme-primary', theme.colors.primary);
+            root.style.setProperty('--theme-secondary', theme.colors.secondary);
+            root.style.setProperty('--theme-accent', theme.colors.accent);
+            root.style.setProperty('--theme-text', theme.colors.text);
+            root.style.setProperty('--theme-bg', theme.colors.bg);
+
+            // Apply theme class to body
+            document.body.className = `theme-${themeName}`;
+
+            // Update window title if game is running (redraw canvas)
+            if (gameRunning) {
+                // Redraw everything with new theme
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawBackground();
+                drawKitties();
+                drawPaddle();
+                drawParticles();
+            }
+
+            updateStatus(`Theme changed to ${theme.name}`);
+        }
+
+        // Apply saved theme on load
+        applyTheme(currentTheme);
+
+        // Dropdown menu system
+        document.querySelectorAll('.menu-item').forEach(menuItem => {
+            menuItem.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const dropdown = this.querySelector('.dropdown-menu');
+                const wasOpen = dropdown && dropdown.classList.contains('show');
+
+                // Close all dropdowns
+                document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+                document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+
+                // Toggle current dropdown
+                if (dropdown && !wasOpen) {
+                    dropdown.classList.add('show');
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+        });
+
+        // Prevent dropdown items from closing parent dropdown
+        document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+            dropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+
+        // Menu Functions - File Menu
+        function newGame() {
+            returnToHome();
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+            updateStatus('Starting new game...');
+        }
+
+        function viewHighScores() {
+            const playerName = localStorage.getItem('kittyBounce98PlayerName') || 'Player';
+            alert(`🏆 High Scores 🏆\n\n${playerName}: ${highScore} points\n\nKeep playing to beat your record!`);
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+        }
+
+        function exitGame() {
+            if (confirm('Are you sure you want to exit Kitty Bounce \'98?')) {
+                window.close();
+            }
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+        }
+
+        // Menu Functions - Game Menu
+        function togglePause() {
+            if (!gameRunning) {
+                alert('No game in progress!');
+                return;
+            }
+            gamePaused = !gamePaused;
+            if (gamePaused) {
+                updateStatus('Game Paused - Press ESC or Spacebar to resume');
+                showPauseOverlay();
+            } else {
+                updateStatus('Game Resumed');
+                hidePauseOverlay();
+                gameLoop();
+            }
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+        }
+
+        function restartCurrentGame() {
+            if (confirm('Restart current game? Your progress will be lost.')) {
+                restartGame();
+            }
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+        }
+
+        function showDifficultySettings() {
+            const current = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+            const choice = prompt(`Select Difficulty:\n\n1. Easy (Slower, 5 lives)\n2. Medium (Normal speed, 3 lives)\n3. Hard (Faster, 3 lives, fewer collectibles)\n\nCurrent: ${current}\n\nEnter 1, 2, or 3:`);
+
+            if (choice === '1') {
+                difficulty = 'easy';
+                updateStatus('Difficulty set to Easy');
+            } else if (choice === '2') {
+                difficulty = 'medium';
+                updateStatus('Difficulty set to Medium');
+            } else if (choice === '3') {
+                difficulty = 'hard';
+                updateStatus('Difficulty set to Hard');
+            }
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+        }
+
+        // Menu Functions - Options Menu
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundStatus').textContent = soundEnabled ? 'ON' : 'OFF';
+            updateStatus(`Sound ${soundEnabled ? 'enabled' : 'disabled'}`);
+        }
+
+        function toggleMusic() {
+            musicEnabled = !musicEnabled;
+            document.getElementById('musicStatus').textContent = musicEnabled ? 'ON' : 'OFF';
+            if (backgroundMusic) {
+                if (musicEnabled) {
+                    backgroundMusic.play().catch(e => console.log('Music play failed:', e));
+                } else {
+                    backgroundMusic.pause();
+                }
+            }
+            updateStatus(`Music ${musicEnabled ? 'enabled' : 'disabled'}`);
+        }
+
+        function showVolumeControls() {
+            const newVolume = prompt(`Set Master Volume (0-100):\n\nCurrent: ${Math.round(masterVolume * 100)}%`);
+            if (newVolume !== null && !isNaN(newVolume)) {
+                masterVolume = Math.max(0, Math.min(100, parseInt(newVolume))) / 100;
+                updateStatus(`Volume set to ${Math.round(masterVolume * 100)}%`);
+                // Update all audio volumes
+                if (backgroundMusic) backgroundMusic.volume = masterVolume * 0.3;
+            }
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+        }
+
+        function showSettings() {
+            document.getElementById('settingsOverlay').classList.add('show');
+            document.getElementById('settingsDialog').classList.add('show');
+            updateThemeSelection();
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsOverlay').classList.remove('show');
+            document.getElementById('settingsDialog').classList.remove('show');
+        }
+
+        function selectTheme(themeName) {
+            applyTheme(themeName);
+            updateThemeSelection();
+        }
+
+        function updateThemeSelection() {
+            document.querySelectorAll('.theme-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelector(`.theme-card-${currentTheme}`).classList.add('selected');
+        }
+
+        // Menu Functions - Help Menu
+        function showHowToPlay() {
+            alert('🎮 How to Play Kitty Bounce \'98 🎮\n\n' +
+                  '1. Move your paddle left/right using arrow keys or mouse\n' +
+                  '2. Bounce falling kitties to score points\n' +
+                  '3. Collect falling items for bonus points\n' +
+                  '4. Don\'t let kitties fall! You lose a life each time\n' +
+                  '5. Level up every 200 points\n' +
+                  '6. Beat your high score!\n\n' +
+                  'Rare kitties are worth more points!');
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+        }
+
+        function showControls() {
+            alert('⌨️ Controls Reference ⌨️\n\n' +
+                  '← → Arrow Keys: Move paddle\n' +
+                  'Mouse: Move paddle\n' +
+                  'Spacebar/ESC: Pause/Resume\n\n' +
+                  'Use the menu bar for more options!');
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+        }
+
+        function showAbout() {
+            alert('🐱 Kitty Bounce \'98 🐱\n\n' +
+                  'Version 2.0\n\n' +
+                  'A retro-styled arcade game where you bounce falling kitties!\n\n' +
+                  'Created with ❤️ and nostalgia for the Windows 98 era.\n\n' +
+                  '© 2024 Kitty Bounce Games');
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+        }
+
+        // Window Control Functions
+        function minimizeWindow() {
+            const window = document.querySelector('.window');
+            const isMinimized = window.classList.contains('minimized');
+
+            if (isMinimized) {
+                window.classList.remove('minimized');
+                updateStatus('Window restored');
+            } else {
+                window.classList.add('minimized');
+                updateStatus('Window minimized - Click minimize button to restore');
+            }
+        }
+
+        function maximizeWindow() {
+            const window = document.querySelector('.window');
+            const isMaximized = window.classList.contains('maximized');
+
+            if (isMaximized) {
+                window.classList.remove('maximized');
+                updateStatus('Window restored to normal size');
+            } else {
+                window.classList.add('maximized');
+                updateStatus('Window maximized');
+            }
+        }
 
         // Define kitty types with pixel art
         const kittyTypes = [
@@ -523,31 +1188,51 @@
             dx: 0
         };
 
-        // Paddle designs
+        // Paddle designs with unique abilities
         const paddleDesigns = [
             {
                 name: 'Cat Toy Stick',
                 id: 'toy_stick',
                 preview: '🎣',
-                description: 'Classic feather toy'
+                description: 'Classic feather toy',
+                width: 140,
+                speed: 8,
+                bounceMultiplier: 1.0,
+                scoreMultiplier: 1.0,
+                stats: 'Width: 140px | Speed: Normal'
             },
             {
                 name: 'Cushion',
                 id: 'cushion',
                 preview: '🛏️',
-                description: 'Soft and comfy'
+                description: 'Soft and comfy',
+                width: 120,
+                speed: 6,
+                bounceMultiplier: 1.3,
+                scoreMultiplier: 1.0,
+                stats: 'Width: 120px | Speed: Slow | Bounce: +30%'
             },
             {
                 name: 'Mouse Toy',
                 id: 'mouse',
                 preview: '🐭',
-                description: 'Squeaky mouse'
+                description: 'Squeaky mouse',
+                width: 100,
+                speed: 10,
+                bounceMultiplier: 1.0,
+                scoreMultiplier: 1.0,
+                stats: 'Width: 100px | Speed: Fast'
             },
             {
                 name: 'Laser Pointer',
                 id: 'laser',
                 preview: '🔴',
-                description: 'Mesmerizing red dot'
+                description: 'Mesmerizing red dot',
+                width: 80,
+                speed: 8,
+                bounceMultiplier: 1.0,
+                scoreMultiplier: 1.5,
+                stats: 'Width: 80px | Points: +50%'
             }
         ];
 
@@ -568,11 +1253,232 @@
         let lastCollectibleTime = 0;
         const collectibleInterval = 2500;
 
+        // Particle system for hit effects
+        let particles = [];
+
+        function spawnParticles(x, y, kittyType) {
+            const numParticles = 8 + Math.floor(Math.random() * 5);
+
+            // Color based on kitty rarity
+            let particleColor = '#FFFFFF'; // Default white sparkles
+            if (kittyType.points >= 100) particleColor = '#FFD700'; // Gold for legendary
+            else if (kittyType.points >= 50) particleColor = '#FF69B4'; // Pink for very rare
+            else if (kittyType.points >= 30) particleColor = '#00CED1'; // Cyan for rare
+            else if (kittyType.points >= 20) particleColor = '#FFA500'; // Orange for uncommon
+
+            for (let i = 0; i < numParticles; i++) {
+                const angle = (Math.PI * 2 * i) / numParticles + (Math.random() - 0.5) * 0.5;
+                const speed = 2 + Math.random() * 3;
+                const type = Math.random() > 0.6 ? 'heart' : 'sparkle';
+
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    life: 1.0,
+                    decay: 0.015 + Math.random() * 0.01,
+                    color: particleColor,
+                    type: type,
+                    size: 2 + Math.floor(Math.random() * 3)
+                });
+            }
+        }
+
+        function updateParticles() {
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.1; // Gravity
+                p.life -= p.decay;
+
+                if (p.life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+        }
+
+        function drawParticles() {
+            particles.forEach(p => {
+                ctx.save();
+                ctx.globalAlpha = p.life;
+
+                if (p.type === 'heart') {
+                    // Pixel art heart
+                    const pixelSize = p.size;
+                    const heartPattern = [
+                        [0,1,1,0,1,1,0],
+                        [1,1,1,1,1,1,1],
+                        [1,1,1,1,1,1,1],
+                        [0,1,1,1,1,1,0],
+                        [0,0,1,1,1,0,0],
+                        [0,0,0,1,0,0,0]
+                    ];
+
+                    ctx.fillStyle = '#FF69B4';
+                    heartPattern.forEach((row, y) => {
+                        row.forEach((pixel, x) => {
+                            if (pixel) {
+                                ctx.fillRect(p.x + x * pixelSize, p.y + y * pixelSize, pixelSize, pixelSize);
+                            }
+                        });
+                    });
+                } else {
+                    // Pixel art sparkle/star
+                    const pixelSize = p.size;
+                    ctx.fillStyle = p.color;
+
+                    // Plus shape sparkle
+                    ctx.fillRect(p.x + pixelSize, p.y, pixelSize, pixelSize * 3);
+                    ctx.fillRect(p.x, p.y + pixelSize, pixelSize * 3, pixelSize);
+
+                    // Brighter center
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillRect(p.x + pixelSize, p.y + pixelSize, pixelSize, pixelSize);
+                }
+
+                ctx.restore();
+            });
+        }
+
+        // Pause overlay functions
+        function showPauseOverlay() {
+            document.getElementById('pauseOverlay').classList.add('show');
+        }
+
+        function hidePauseOverlay() {
+            document.getElementById('pauseOverlay').classList.remove('show');
+        }
+
+        // Sound System using Web Audio API
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let backgroundMusic = null;
+        let musicOscillator = null;
+        let musicGain = null;
+
+        // Play a simple tone
+        function playTone(frequency, duration, type = 'sine', volume = 0.3) {
+            if (!soundEnabled) return;
+
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = frequency;
+            oscillator.type = type;
+
+            gainNode.gain.setValueAtTime(volume * masterVolume, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        // Sound Effects
+        function playCatchSound() {
+            // Meow-like sound (rising then falling pitch)
+            playTone(400, 0.1, 'square', 0.2);
+            setTimeout(() => playTone(600, 0.1, 'square', 0.2), 100);
+            setTimeout(() => playTone(500, 0.15, 'square', 0.2), 200);
+        }
+
+        function playMissSound() {
+            // Descending sad tone
+            playTone(300, 0.1, 'sawtooth', 0.3);
+            setTimeout(() => playTone(200, 0.1, 'sawtooth', 0.3), 100);
+            setTimeout(() => playTone(150, 0.2, 'sawtooth', 0.3), 200);
+        }
+
+        function playCollectSound() {
+            // Chime sound
+            playTone(800, 0.1, 'sine', 0.25);
+            setTimeout(() => playTone(1000, 0.15, 'sine', 0.25), 50);
+        }
+
+        function playLevelUpSound() {
+            // Victory fanfare
+            const notes = [523, 659, 784, 1047]; // C, E, G, C (major chord)
+            notes.forEach((note, i) => {
+                setTimeout(() => playTone(note, 0.2, 'triangle', 0.3), i * 100);
+            });
+        }
+
+        function playGameOverSound() {
+            // Descending game over sound
+            const notes = [392, 349, 329, 293]; // G, F, E, D
+            notes.forEach((note, i) => {
+                setTimeout(() => playTone(note, 0.25, 'square', 0.25), i * 150);
+            });
+        }
+
+        // Background Music - Simple looping melody
+        function startBackgroundMusic() {
+            if (!musicEnabled || musicOscillator) return;
+
+            musicGain = audioContext.createGain();
+            musicGain.connect(audioContext.destination);
+            musicGain.gain.value = masterVolume * 0.15;
+
+            const melody = [
+                {freq: 523, duration: 0.3}, // C
+                {freq: 659, duration: 0.3}, // E
+                {freq: 784, duration: 0.3}, // G
+                {freq: 659, duration: 0.3}, // E
+                {freq: 698, duration: 0.3}, // F
+                {freq: 784, duration: 0.3}, // G
+                {freq: 880, duration: 0.6}, // A
+                {freq: 784, duration: 0.3}, // G
+                {freq: 659, duration: 0.3}, // E
+                {freq: 523, duration: 0.6}  // C
+            ];
+
+            let currentNote = 0;
+            let nextNoteTime = audioContext.currentTime;
+
+            function playNextNote() {
+                if (!musicEnabled) {
+                    stopBackgroundMusic();
+                    return;
+                }
+
+                const note = melody[currentNote];
+                const osc = audioContext.createOscillator();
+                osc.connect(musicGain);
+                osc.frequency.value = note.freq;
+                osc.type = 'square';
+                osc.start(nextNoteTime);
+                osc.stop(nextNoteTime + note.duration);
+
+                nextNoteTime += note.duration;
+                currentNote = (currentNote + 1) % melody.length;
+
+                setTimeout(playNextNote, note.duration * 1000);
+            }
+
+            playNextNote();
+        }
+
+        function stopBackgroundMusic() {
+            if (musicGain) {
+                musicGain.disconnect();
+                musicGain = null;
+            }
+        }
+
         // Input
         let keys = {};
         let mouseX = canvas.width / 2;
 
         document.addEventListener('keydown', (e) => {
+            // Handle pause/resume
+            if ((e.key === 'Escape' || e.key === ' ') && gameRunning) {
+                e.preventDefault();
+                togglePause();
+                return;
+            }
             keys[e.key] = true;
         });
 
@@ -584,6 +1490,79 @@
             const rect = canvas.getBoundingClientRect();
             mouseX = e.clientX - rect.left;
         });
+
+        // Aero-themed smooth gradient kitty
+        function drawAeroKitty(x, y, size, type) {
+            const radius = size / 2;
+
+            // Soft gradient body
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+            gradient.addColorStop(0, type.color);
+            gradient.addColorStop(0.7, type.stripes);
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0.2)');
+
+            ctx.fillStyle = gradient;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // Smooth eyes
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.arc(x - radius/3, y - radius/4, radius/6, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(x + radius/3, y - radius/4, radius/6, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Highlight
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.beginPath();
+            ctx.arc(x - radius/3, y - radius/2, radius/3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Y2K-themed cyber glitch kitty
+        function drawY2KKitty(x, y, size, type) {
+            const radius = size / 2;
+
+            // Metallic chrome body
+            const gradient = ctx.createLinearGradient(x - radius, y, x + radius, y);
+            gradient.addColorStop(0, '#808080');
+            gradient.addColorStop(0.3, '#E0E0E0');
+            gradient.addColorStop(0.5, '#FFFFFF');
+            gradient.addColorStop(0.7, '#C0C0C0');
+            gradient.addColorStop(1, '#606060');
+
+            ctx.fillStyle = gradient;
+            ctx.shadowBlur = 12;
+            ctx.shadowColor = type.points >= 50 ? '#FF1493' : '#00FFFF';
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Neon outline
+            ctx.strokeStyle = type.points >= 50 ? '#FF1493' : '#00FFFF';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // Digital glitch effect
+            if (backgroundAnimFrame % 10 === 0) {
+                ctx.fillStyle = 'rgba(0, 255, 255, 0.3)';
+                ctx.fillRect(x - radius + Math.random() * radius, y - radius, radius/2, 2);
+                ctx.fillStyle = 'rgba(255, 20, 147, 0.3)';
+                ctx.fillRect(x, y + Math.random() * radius, radius/2, 2);
+            }
+
+            // Eyes
+            ctx.fillStyle = '#00FFFF';
+            ctx.fillRect(x - radius/3, y - radius/4, radius/4, radius/4);
+            ctx.fillRect(x + radius/6, y - radius/4, radius/4, radius/4);
+        }
 
         // Draw pixel art kitty
         function drawPixelKitty(ctx, x, y, size, type) {
@@ -668,14 +1647,24 @@
                 }
             }
 
+            // Apply difficulty speed multiplier
+            let speedMultiplier = 1.0;
+            if (difficulty === 'easy') speedMultiplier = 0.7;
+            if (difficulty === 'hard') speedMultiplier = 1.4;
+
             const kitty = {
                 x: Math.random() * (canvas.width - 60) + 30,
                 y: 100,
                 radius: 20,
-                dx: (Math.random() - 0.5) * 6,
-                dy: 3 + Math.random() * 2,
+                dx: (Math.random() - 0.5) * 6 * speedMultiplier,
+                dy: (3 + Math.random() * 2) * speedMultiplier,
                 type: selectedType,
-                rotation: 0
+                rotation: 0,
+                rotationSpeed: 0.05,
+                squashFactor: 1.0,
+                bounceCount: 0,
+                showEmotion: false,
+                emotionTimer: 0
             };
 
             kitties.push(kitty);
@@ -724,7 +1713,8 @@
                 option.innerHTML = `
                     <div class="paddle-preview">${design.preview}</div>
                     <strong>${design.name}</strong><br>
-                    <small>${design.description}</small>
+                    <small>${design.description}</small><br>
+                    <small style="color: #000080; font-weight: bold; margin-top: 5px; display: block;">${design.stats}</small>
                 `;
                 option.onclick = () => selectPaddle(index, option);
                 optionsContainer.appendChild(option);
@@ -743,12 +1733,25 @@
         }
 
         function confirmPaddleSelection() {
+            // Apply paddle stats
+            paddle.width = selectedPaddle.width;
+            paddle.speed = selectedPaddle.speed;
+
+            // Apply difficulty settings
+            if (difficulty === 'easy') {
+                lives = 5;
+            } else {
+                lives = 3;
+            }
+            updateLives();
+
             document.getElementById('paddleSelectScreen').style.display = 'none';
             gameRunning = true;
             lastCollectibleTime = Date.now();
             resetGame();
             spawnKitty();
             gameLoop();
+            startBackgroundMusic();
             updateStatus(`Game started with ${selectedPaddle.name}!`);
         }
 
@@ -762,15 +1765,22 @@
                 animationId = null;
             }
 
+            stopBackgroundMusic();
+
             // Hide game over screen
             document.getElementById('gameOverScreen').style.display = 'none';
 
             // Reset all game state
             score = 0;
-            lives = 3;
+            if (difficulty === 'easy') {
+                lives = 5;
+            } else {
+                lives = 3;
+            }
             level = 1;
             kitties = [];
             collectibles = [];
+            particles = [];
             lastCollectibleTime = Date.now();
 
             // Update UI
@@ -778,7 +1788,9 @@
             updateLives();
             updateLevel();
 
-            // Reset paddle position
+            // Reset paddle position and stats
+            paddle.width = selectedPaddle.width;
+            paddle.speed = selectedPaddle.speed;
             resetGame();
 
             // Clear canvas and draw background
@@ -792,6 +1804,7 @@
 
             // Start game
             gameRunning = true;
+            startBackgroundMusic();
             updateStatus('Game restarted! Good luck!');
 
             // Start game loop immediately
@@ -810,6 +1823,8 @@
                 animationId = null;
             }
 
+            stopBackgroundMusic();
+
             document.getElementById('gameOverScreen').style.display = 'none';
             document.getElementById('highScoreMessage').style.display = 'none';
             document.getElementById('startScreen').style.display = 'flex';
@@ -819,6 +1834,7 @@
             level = 1;
             kitties = [];
             collectibles = [];
+            particles = [];
 
             updateScore();
             updateLives();
@@ -852,7 +1868,17 @@
 
                 kitty.x += kitty.dx * kitty.type.speed;
                 kitty.y += kitty.dy * kitty.type.speed;
-                kitty.rotation += 0.05;
+                kitty.rotation += kitty.rotationSpeed;
+
+                // Decay animation effects
+                kitty.rotationSpeed = Math.max(0.05, kitty.rotationSpeed * 0.95);
+                kitty.squashFactor = Math.min(1.0, kitty.squashFactor + 0.05);
+                if (kitty.emotionTimer > 0) {
+                    kitty.emotionTimer--;
+                    if (kitty.emotionTimer === 0) {
+                        kitty.showEmotion = false;
+                    }
+                }
 
                 // Wall collision
                 if (kitty.x + kitty.radius > canvas.width || kitty.x - kitty.radius < 0) {
@@ -871,13 +1897,30 @@
                     kitty.x > paddle.x &&
                     kitty.x < paddle.x + paddle.width
                 ) {
-                    kitty.dy = -Math.abs(kitty.dy);
+                    // Apply bounce multiplier (Cushion has higher bounce)
+                    kitty.dy = -Math.abs(kitty.dy) * selectedPaddle.bounceMultiplier;
                     const hitPos = (kitty.x - paddle.x) / paddle.width;
                     kitty.dx = (hitPos - 0.5) * 8;
 
-                    score += kitty.type.points;
+                    // Kitty reaction animations!
+                    kitty.rotationSpeed = 0.15; // Triple the spin speed
+                    kitty.squashFactor = 0.7; // Squash vertically
+                    kitty.bounceCount++;
+                    kitty.showEmotion = true;
+                    kitty.emotionTimer = 20; // Show emotion for 20 frames
+
+                    // Apply score multiplier (Laser Pointer gives bonus points)
+                    const earnedPoints = Math.floor(kitty.type.points * selectedPaddle.scoreMultiplier);
+                    score += earnedPoints;
                     updateScore();
-                    updateStatus(`Bounced ${kitty.type.name}! +${kitty.type.points} pts`);
+
+                    // Spawn particles at collision point!
+                    spawnParticles(kitty.x, paddle.y, kitty.type);
+
+                    playCatchSound();
+
+                    const bonusText = selectedPaddle.scoreMultiplier > 1 ? ` (Bonus!)` : '';
+                    updateStatus(`Bounced ${kitty.type.name}! +${earnedPoints} pts${bonusText}`);
                 }
 
                 // Bottom boundary
@@ -885,6 +1928,7 @@
                     kitties.splice(i, 1);
                     lives--;
                     updateLives();
+                    playMissSound();
                     updateStatus(`Lost a ${kitty.type.name}! -1 life`);
 
                     if (lives <= 0) {
@@ -903,7 +1947,12 @@
 
         function updateCollectibles() {
             const currentTime = Date.now();
-            if (currentTime - lastCollectibleTime > collectibleInterval) {
+            // Adjust collectible spawn rate based on difficulty
+            let spawnInterval = collectibleInterval;
+            if (difficulty === 'easy') spawnInterval = collectibleInterval * 0.7; // More frequent
+            if (difficulty === 'hard') spawnInterval = collectibleInterval * 1.5; // Less frequent
+
+            if (currentTime - lastCollectibleTime > spawnInterval) {
                 spawnCollectible();
                 lastCollectibleTime = currentTime;
             }
@@ -918,6 +1967,7 @@
                     if (dist < kitty.radius + c.size / 2) {
                         score += c.type.points;
                         updateScore();
+                        playCollectSound();
                         updateStatus(`Collected ${c.type.icon}! +${c.type.points} pts`);
                         collectibles.splice(i, 1);
                         break;
@@ -931,131 +1981,260 @@
         }
 
         function drawPaddle() {
-            switch(selectedPaddle.id) {
-                case 'toy_stick':
-                    drawToyStickPaddle();
-                    break;
-                case 'cushion':
-                    drawCushionPaddle();
-                    break;
-                case 'mouse':
-                    drawMousePaddle();
-                    break;
-                case 'laser':
-                    drawLaserPaddle();
-                    break;
-                default:
-                    drawToyStickPaddle();
+            // Dispatch based on theme
+            if (currentTheme === 'aero') {
+                drawAeroPaddle();
+            } else if (currentTheme === 'y2k') {
+                drawY2KPaddle();
+            } else {
+                // Retro pixel art paddles
+                switch(selectedPaddle.id) {
+                    case 'toy_stick':
+                        drawToyStickPaddle();
+                        break;
+                    case 'cushion':
+                        drawCushionPaddle();
+                        break;
+                    case 'mouse':
+                        drawMousePaddle();
+                        break;
+                    case 'laser':
+                        drawLaserPaddle();
+                        break;
+                    default:
+                        drawToyStickPaddle();
+                }
             }
         }
 
-        function drawToyStickPaddle() {
-            const centerX = paddle.x + paddle.width / 2;
+        // Aero-themed smooth gradient paddle
+        function drawAeroPaddle() {
+            const startX = paddle.x;
+            const startY = paddle.y;
 
-            ctx.strokeStyle = '#8B4513';
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.moveTo(centerX, paddle.y - 20);
-            ctx.lineTo(centerX, paddle.y + paddle.height);
-            ctx.stroke();
+            // Glossy gradient paddle
+            const gradient = ctx.createLinearGradient(startX, startY, startX, startY + paddle.height);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
+            gradient.addColorStop(0.5, 'rgba(0, 120, 215, 0.7)');
+            gradient.addColorStop(1, 'rgba(0, 188, 242, 0.6)');
 
-            ctx.strokeStyle = '#D3D3D3';
-            ctx.lineWidth = 1;
-            ctx.setLineDash([3, 3]);
-            ctx.beginPath();
-            ctx.moveTo(centerX, paddle.y - 20);
-            ctx.lineTo(paddle.x + 10, paddle.y);
-            ctx.lineTo(paddle.x + paddle.width - 10, paddle.y);
-            ctx.stroke();
-            ctx.setLineDash([]);
-
-            ctx.fillStyle = '#FF69B4';
-            ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
-
-            drawFeather(paddle.x + 20, paddle.y + 2, '#FF1493');
-            drawFeather(paddle.x + paddle.width / 2, paddle.y + 2, '#FFD700');
-            drawFeather(paddle.x + paddle.width - 20, paddle.y + 2, '#00CED1');
-
-            ctx.fillStyle = '#654321';
-            ctx.fillRect(centerX - 5, paddle.y - 35, 10, 15);
-        }
-
-        function drawFeather(x, y, color) {
-            ctx.fillStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-            ctx.quadraticCurveTo(x - 3, y + 5, x - 2, y + 10);
-            ctx.quadraticCurveTo(x, y + 8, x + 2, y + 10);
-            ctx.quadraticCurveTo(x + 3, y + 5, x, y);
-            ctx.fill();
-        }
-
-        function drawCushionPaddle() {
-            ctx.fillStyle = '#FFB6C1';
-            ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
-
-            ctx.fillStyle = '#FFC0CB';
-            ctx.fillRect(paddle.x + 5, paddle.y + 3, paddle.width - 10, paddle.height - 6);
-
-            ctx.strokeStyle = '#FF69B4';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(paddle.x + 20, paddle.y + 2);
-            ctx.lineTo(paddle.x + paddle.width - 20, paddle.y + paddle.height - 2);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(paddle.x + paddle.width - 20, paddle.y + 2);
-            ctx.lineTo(paddle.x + 20, paddle.y + paddle.height - 2);
-            ctx.stroke();
-        }
-
-        function drawMousePaddle() {
-            ctx.fillStyle = '#808080';
-            ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
-
-            ctx.fillStyle = '#A9A9A9';
-            ctx.beginPath();
-            ctx.arc(paddle.x + 30, paddle.y, 8, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(paddle.x + paddle.width - 30, paddle.y, 8, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#FFC0CB';
-            ctx.beginPath();
-            ctx.arc(paddle.x + paddle.width / 2, paddle.y + paddle.height / 2, 3, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.strokeStyle = '#696969';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(paddle.x + paddle.width, paddle.y + paddle.height / 2);
-            ctx.lineTo(paddle.x + paddle.width + 15, paddle.y + paddle.height / 2);
-            ctx.stroke();
-        }
-
-        function drawLaserPaddle() {
-            ctx.fillStyle = '#C0C0C0';
-            ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
-
-            ctx.fillStyle = '#FF0000';
+            ctx.fillStyle = gradient;
             ctx.shadowBlur = 10;
-            ctx.shadowColor = '#FF0000';
+            ctx.shadowColor = 'rgba(0, 120, 215, 0.5)';
             ctx.beginPath();
-            ctx.arc(paddle.x + paddle.width / 2, paddle.y + paddle.height / 2, 5, 0, Math.PI * 2);
+            ctx.roundRect(startX, startY, paddle.width, paddle.height, 8);
             ctx.fill();
             ctx.shadowBlur = 0;
 
-            ctx.strokeStyle = '#A0A0A0';
+            // Highlight
+            const highlightGradient = ctx.createLinearGradient(startX, startY, startX, startY + paddle.height / 2);
+            highlightGradient.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+            highlightGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = highlightGradient;
+            ctx.beginPath();
+            ctx.roundRect(startX + 2, startY + 2, paddle.width - 4, paddle.height / 2, 6);
+            ctx.fill();
+        }
+
+        // Y2K-themed metallic chrome paddle
+        function drawY2KPaddle() {
+            const startX = paddle.x;
+            const startY = paddle.y;
+
+            // Metallic chrome gradient
+            const gradient = ctx.createLinearGradient(startX, startY, startX, startY + paddle.height);
+            gradient.addColorStop(0, '#E0E0E0');
+            gradient.addColorStop(0.3, '#FFFFFF');
+            gradient.addColorStop(0.5, '#C0C0C0');
+            gradient.addColorStop(0.7, '#808080');
+            gradient.addColorStop(1, '#A0A0A0');
+
+            ctx.fillStyle = gradient;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = 'rgba(0, 255, 255, 0.6)';
+
+            // Angular shape
+            ctx.beginPath();
+            ctx.moveTo(startX + 4, startY);
+            ctx.lineTo(startX + paddle.width - 4, startY);
+            ctx.lineTo(startX + paddle.width, startY + 4);
+            ctx.lineTo(startX + paddle.width, startY + paddle.height - 4);
+            ctx.lineTo(startX + paddle.width - 4, startY + paddle.height);
+            ctx.lineTo(startX + 4, startY + paddle.height);
+            ctx.lineTo(startX, startY + paddle.height - 4);
+            ctx.lineTo(startX, startY + 4);
+            ctx.closePath();
+            ctx.fill();
+
+            // Neon outline
+            ctx.strokeStyle = backgroundAnimFrame % 60 < 30 ? '#FF1493' : '#00FFFF';
             ctx.lineWidth = 2;
-            ctx.setLineDash([2, 2]);
-            for (let i = 0; i < 3; i++) {
-                ctx.beginPath();
-                ctx.moveTo(paddle.x + 20 + i * 30, paddle.y);
-                ctx.lineTo(paddle.x + 20 + i * 30, paddle.y + paddle.height);
-                ctx.stroke();
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+        }
+
+        function drawToyStickPaddle() {
+            // Pixel art feather wand
+            const pixelSize = 2;
+            const startX = Math.floor(paddle.x);
+            const startY = Math.floor(paddle.y);
+
+            // Stick pattern (brown wooden stick)
+            const stickPattern = [
+                [0,0,0,1,1,1,0,0,0],
+                [0,0,0,1,2,1,0,0,0],
+                [0,0,0,1,1,1,0,0,0],
+                [0,0,0,1,2,1,0,0,0],
+                [0,0,0,1,1,1,0,0,0]
+            ];
+
+            // Draw stick in center
+            const stickX = startX + paddle.width / 2 - 9;
+            stickPattern.forEach((row, y) => {
+                row.forEach((pixel, x) => {
+                    if (pixel > 0) {
+                        ctx.fillStyle = pixel === 1 ? '#8B4513' : '#A0522D';
+                        ctx.fillRect(stickX + x * pixelSize, startY + y * pixelSize, pixelSize, pixelSize);
+                    }
+                });
+            });
+
+            // Feathers (colorful pixel feathers along the paddle)
+            const featherColors = ['#FF1493', '#FFD700', '#00CED1', '#FF69B4', '#9370DB'];
+            for (let i = 0; i < paddle.width; i += 8) {
+                const color = featherColors[Math.floor(i / 8) % featherColors.length];
+                // Small feather pixels
+                ctx.fillStyle = color;
+                ctx.fillRect(startX + i, startY + 2, 3, 2);
+                ctx.fillRect(startX + i + 1, startY, 2, 2);
+                ctx.fillRect(startX + i + 2, startY + 4, 2, 2);
             }
-            ctx.setLineDash([]);
+        }
+
+        function drawCushionPaddle() {
+            // Pixel art cushion/pillow
+            const pixelSize = 2;
+            const startX = Math.floor(paddle.x);
+            const startY = Math.floor(paddle.y);
+
+            // Cushion pattern with quilted effect
+            const cushionHeight = Math.floor(paddle.height / pixelSize);
+            const cushionWidth = Math.floor(paddle.width / pixelSize);
+
+            // Draw base cushion
+            for (let y = 0; y < cushionHeight; y++) {
+                for (let x = 0; x < cushionWidth; x++) {
+                    // Create quilted pattern
+                    const isEdge = y === 0 || y === cushionHeight - 1 || x === 0 || x === cushionWidth - 1;
+                    const isQuiltLine = (x % 8 === 0 || y % 3 === 0);
+
+                    let color = '#FFC0CB'; // Light pink
+                    if (isEdge) color = '#FFB6C1'; // Darker pink edge
+                    else if (isQuiltLine) color = '#FF69B4'; // Quilt lines
+
+                    ctx.fillStyle = color;
+                    ctx.fillRect(startX + x * pixelSize, startY + y * pixelSize, pixelSize, pixelSize);
+                }
+            }
+
+            // Add decorative tassels
+            const tasselPositions = [10, paddle.width / 2, paddle.width - 10];
+            tasselPositions.forEach(pos => {
+                ctx.fillStyle = '#FF1493';
+                ctx.fillRect(startX + pos, startY + paddle.height - 2, 3, 2);
+            });
+        }
+
+        function drawMousePaddle() {
+            // Pixel art squeaky mouse toy
+            const pixelSize = 2;
+            const startX = Math.floor(paddle.x);
+            const startY = Math.floor(paddle.y);
+
+            // Mouse body pattern (gray mouse)
+            const mousePattern = [
+                [0,0,1,1,1,1,1,0,0],
+                [0,1,2,2,2,2,2,1,0],
+                [1,2,2,3,2,3,2,2,1],
+                [1,2,2,2,4,2,2,2,1],
+                [0,1,2,2,2,2,2,1,0],
+                [0,0,1,1,1,1,1,0,0]
+            ];
+
+            // Draw mice along the paddle
+            const numMice = Math.floor(paddle.width / 25);
+            for (let m = 0; m < numMice; m++) {
+                const mouseX = startX + m * 25 + 5;
+                mousePattern.forEach((row, y) => {
+                    row.forEach((pixel, x) => {
+                        if (pixel > 0) {
+                            const colors = {
+                                1: '#696969', // Dark outline
+                                2: '#A9A9A9', // Gray body
+                                3: '#000000', // Eyes
+                                4: '#FFC0CB'  // Pink nose
+                            };
+                            ctx.fillStyle = colors[pixel];
+                            ctx.fillRect(mouseX + x * pixelSize, startY + y * pixelSize, pixelSize, pixelSize);
+                        }
+                    });
+                });
+
+                // Tail
+                ctx.fillStyle = '#696969';
+                ctx.fillRect(mouseX + 18, startY + 8, 6, 2);
+            }
+        }
+
+        function drawLaserPaddle() {
+            // Pixel art laser pointer device
+            const pixelSize = 2;
+            const startX = Math.floor(paddle.x);
+            const startY = Math.floor(paddle.y);
+
+            // Laser pointer body pattern
+            const pointerPattern = [
+                [0,1,1,1,1,1,0],
+                [1,2,2,2,2,2,1],
+                [1,2,3,3,3,2,1],
+                [1,2,2,2,2,2,1],
+                [0,1,1,1,1,1,0]
+            ];
+
+            // Draw pointer devices along paddle
+            const numPointers = Math.floor(paddle.width / 20);
+            for (let p = 0; p < numPointers; p++) {
+                const pointerX = startX + p * 20 + 3;
+
+                pointerPattern.forEach((row, y) => {
+                    row.forEach((pixel, x) => {
+                        if (pixel > 0) {
+                            const colors = {
+                                1: '#808080', // Dark gray outline
+                                2: '#C0C0C0', // Silver body
+                                3: '#606060'  // Button area
+                            };
+                            ctx.fillStyle = colors[pixel];
+                            ctx.fillRect(pointerX + x * pixelSize, startY + y * pixelSize, pixelSize, pixelSize);
+                        }
+                    });
+                });
+
+                // Glowing red laser dot at end
+                const dotX = pointerX + 14;
+                const dotY = startY + 5;
+
+                // Glow effect
+                ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+                ctx.fillRect(dotX - 2, dotY - 2, 8, 8);
+
+                // Core dot
+                ctx.fillStyle = '#FF0000';
+                ctx.fillRect(dotX, dotY, 4, 4);
+
+                ctx.fillStyle = '#FF6666';
+                ctx.fillRect(dotX + 1, dotY + 1, 2, 2);
+            }
         }
 
         function drawKitties() {
@@ -1063,8 +2242,40 @@
                 ctx.save();
                 ctx.translate(kitty.x, kitty.y);
                 ctx.rotate(kitty.rotation);
+
+                // Apply squash effect
+                ctx.scale(1 / kitty.squashFactor, kitty.squashFactor);
+
                 ctx.translate(-kitty.x, -kitty.y);
-                drawPixelKitty(ctx, kitty.x, kitty.y, kitty.radius * 2, kitty.type);
+
+                // Draw based on theme
+                if (currentTheme === 'aero') {
+                    drawAeroKitty(kitty.x, kitty.y, kitty.radius * 2, kitty.type);
+                } else if (currentTheme === 'y2k') {
+                    drawY2KKitty(kitty.x, kitty.y, kitty.radius * 2, kitty.type);
+                } else {
+                    drawPixelKitty(ctx, kitty.x, kitty.y, kitty.radius * 2, kitty.type);
+                }
+
+                // Draw emotion if active
+                if (kitty.showEmotion) {
+                    ctx.resetTransform();
+                    const emotionY = kitty.y - kitty.radius - 10;
+
+                    // Surprised eyes (pixel art)
+                    ctx.fillStyle = '#000000';
+                    ctx.fillRect(kitty.x - 8, emotionY, 4, 4);
+                    ctx.fillRect(kitty.x + 4, emotionY, 4, 4);
+
+                    // Happy mouth
+                    ctx.fillRect(kitty.x - 6, emotionY + 6, 2, 2);
+                    ctx.fillRect(kitty.x - 4, emotionY + 8, 2, 2);
+                    ctx.fillRect(kitty.x - 2, emotionY + 9, 2, 2);
+                    ctx.fillRect(kitty.x, emotionY + 10, 2, 2);
+                    ctx.fillRect(kitty.x + 2, emotionY + 9, 2, 2);
+                    ctx.fillRect(kitty.x + 4, emotionY + 8, 2, 2);
+                }
+
                 ctx.restore();
             });
         }
@@ -1079,67 +2290,379 @@
             });
         }
 
+        // Background animation state
+        let cloudOffset = 0;
+        let animalAnimFrame = 0;
+        let backgroundAnimFrame = 0;
+
         function drawBackground() {
+            backgroundAnimFrame++;
+
+            // Dispatch to theme-specific background
+            if (currentTheme === 'aero') {
+                drawAeroBackground();
+            } else if (currentTheme === 'y2k') {
+                drawY2KBackground();
+            } else {
+                drawRetroBackground();
+            }
+        }
+
+        function drawRetroBackground() {
+            // Sky gradient
             const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
             gradient.addColorStop(0, '#B5E3FF');
+            gradient.addColorStop(0.5, '#D4EFFF');
             gradient.addColorStop(1, '#E8F4FF');
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+            // Animated clouds
+            cloudOffset += 0.2;
+            if (cloudOffset > canvas.width) cloudOffset = -100;
+            drawPixelCloud(cloudOffset, 50);
+            drawPixelCloud(cloudOffset + 300, 120);
+            drawPixelCloud(cloudOffset + 500, 80);
+            drawPixelCloud(cloudOffset - 200, 150);
+
+            // Grass ground
             ctx.fillStyle = '#90EE90';
             ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
 
-            ctx.globalAlpha = 0.3;
-
-            drawTree(100, canvas.height - 80);
-            drawTree(300, canvas.height - 80);
-            drawTree(500, canvas.height - 80);
-            drawTree(700, canvas.height - 80);
-
-            drawBush(150, canvas.height - 50);
-            drawBush(450, canvas.height - 50);
-            drawBush(650, canvas.height - 50);
-
-            drawForestAnimal('🐿️', 50, canvas.height - 60);
-            drawForestAnimal('🦔', 600, canvas.height - 55);
-            drawForestAnimal('🐦', 250, canvas.height - 120);
-
-            for (let i = 0; i < 10; i++) {
-                const x = 80 + i * 70;
-                const y = canvas.height - 40;
-                ctx.fillStyle = ['#FF69B4', '#FFD700', '#FF6B6B'][i % 3];
-                ctx.beginPath();
-                ctx.arc(x, y, 3, 0, Math.PI * 2);
-                ctx.fill();
+            // Grass texture (pixel dots)
+            ctx.fillStyle = '#7CCD7C';
+            for (let x = 0; x < canvas.width; x += 8) {
+                for (let y = canvas.height - 80; y < canvas.height; y += 6) {
+                    if (Math.random() > 0.7) {
+                        ctx.fillRect(x, y, 2, 2);
+                    }
+                }
             }
+
+            ctx.globalAlpha = 0.8;
+
+            // Enhanced pixel art trees
+            drawPixelTree(100, canvas.height - 80);
+            drawPixelTree(300, canvas.height - 80);
+            drawPixelTree(500, canvas.height - 80);
+            drawPixelTree(700, canvas.height - 80);
+
+            // Pixel art bushes
+            drawPixelBush(150, canvas.height - 50);
+            drawPixelBush(450, canvas.height - 50);
+            drawPixelBush(650, canvas.height - 50);
+
+            // Pixel art flowers
+            drawPixelFlower(200, canvas.height - 45, '#FF69B4');
+            drawPixelFlower(380, canvas.height - 40, '#FFD700');
+            drawPixelFlower(550, canvas.height - 42, '#FF6B6B');
+            drawPixelFlower(120, canvas.height - 48, '#9370DB');
+            drawPixelFlower(620, canvas.height - 44, '#00CED1');
+
+            // Animated forest animals (pixel art)
+            animalAnimFrame++;
+            drawPixelSquirrel(50, canvas.height - 60, animalAnimFrame);
+            drawPixelHedgehog(600, canvas.height - 55, animalAnimFrame);
+            drawPixelBird(250, canvas.height - 120, animalAnimFrame);
 
             ctx.globalAlpha = 1.0;
         }
 
-        function drawTree(x, y) {
+        function drawPixelCloud(x, y) {
+            const pixelSize = 3;
+            const cloudPattern = [
+                [0,0,1,1,1,1,0,0],
+                [0,1,2,2,2,2,1,0],
+                [1,2,2,2,2,2,2,1],
+                [1,2,2,2,2,2,2,1],
+                [0,1,1,1,1,1,1,0]
+            ];
+
+            cloudPattern.forEach((row, py) => {
+                row.forEach((pixel, px) => {
+                    if (pixel > 0) {
+                        ctx.fillStyle = pixel === 1 ? '#E0E0E0' : '#FFFFFF';
+                        ctx.fillRect(x + px * pixelSize, y + py * pixelSize, pixelSize, pixelSize);
+                    }
+                });
+            });
+        }
+
+        function drawPixelTree(x, y) {
+            const pixelSize = 2;
+            // Trunk
             ctx.fillStyle = '#8B4513';
-            ctx.fillRect(x - 8, y - 40, 16, 40);
+            ctx.fillRect(x - 6, y - 40, 12, 40);
+            ctx.fillStyle = '#A0522D';
+            ctx.fillRect(x - 4, y - 40, 4, 40);
 
+            // Leaves (layered triangles)
+            const leafPattern = [
+                [0,0,0,1,1,0,0,0],
+                [0,0,1,2,2,1,0,0],
+                [0,1,2,2,2,2,1,0],
+                [1,2,2,2,2,2,2,1]
+            ];
+
+            // Draw 3 layers
+            for (let layer = 0; layer < 3; layer++) {
+                const offsetY = y - 60 + layer * 10;
+                leafPattern.forEach((row, py) => {
+                    row.forEach((pixel, px) => {
+                        if (pixel > 0) {
+                            ctx.fillStyle = pixel === 1 ? '#228B22' : '#32CD32';
+                            ctx.fillRect(x - 16 + px * pixelSize, offsetY + py * pixelSize, pixelSize, pixelSize);
+                        }
+                    });
+                });
+            }
+        }
+
+        function drawPixelBush(x, y) {
+            const pixelSize = 2;
+            const bushPattern = [
+                [0,1,1,1,1,0],
+                [1,2,2,2,2,1],
+                [1,2,3,3,2,1],
+                [0,1,2,2,1,0]
+            ];
+
+            bushPattern.forEach((row, py) => {
+                row.forEach((pixel, px) => {
+                    if (pixel > 0) {
+                        const colors = {1: '#228B22', 2: '#32CD32', 3: '#FF6B6B'}; // Berries
+                        ctx.fillStyle = colors[pixel];
+                        ctx.fillRect(x - 6 + px * pixelSize, y + py * pixelSize, pixelSize, pixelSize);
+                    }
+                });
+            });
+        }
+
+        function drawPixelFlower(x, y, color) {
+            const pixelSize = 2;
+            // Petals
+            ctx.fillStyle = color;
+            ctx.fillRect(x - 2, y, pixelSize, pixelSize); // Left
+            ctx.fillRect(x + 2, y, pixelSize, pixelSize); // Right
+            ctx.fillRect(x, y - 2, pixelSize, pixelSize); // Top
+            ctx.fillRect(x, y + 2, pixelSize, pixelSize); // Bottom
+
+            // Center
+            ctx.fillStyle = '#FFD700';
+            ctx.fillRect(x, y, pixelSize, pixelSize);
+
+            // Stem
             ctx.fillStyle = '#228B22';
+            ctx.fillRect(x, y + 4, pixelSize, 6);
+        }
+
+        function drawPixelSquirrel(x, y, frame) {
+            const pixelSize = 2;
+            const tailWag = Math.sin(frame * 0.1) > 0 ? 0 : 1;
+
+            const squirrelPattern = [
+                [0,0,1,1],
+                [0,1,2,1],
+                [1,2,3,1],
+                [0,1,1,0]
+            ];
+
+            squirrelPattern.forEach((row, py) => {
+                row.forEach((pixel, px) => {
+                    if (pixel > 0) {
+                        const colors = {1: '#8B4513', 2: '#D2691E', 3: '#000'};
+                        ctx.fillStyle = colors[pixel];
+                        ctx.fillRect(x + px * pixelSize, y + py * pixelSize, pixelSize, pixelSize);
+                    }
+                });
+            });
+
+            // Animated tail
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(x - 4, y + tailWag * 2, 3, 6);
+        }
+
+        function drawPixelHedgehog(x, y, frame) {
+            const pixelSize = 2;
+            const hedgehogPattern = [
+                [0,1,1,1,0],
+                [1,2,3,2,1],
+                [0,1,2,2,0]
+            ];
+
+            hedgehogPattern.forEach((row, py) => {
+                row.forEach((pixel, px) => {
+                    if (pixel > 0) {
+                        const colors = {1: '#8B4513', 2: '#D2B48C', 3: '#000'};
+                        ctx.fillStyle = colors[pixel];
+                        ctx.fillRect(x + px * pixelSize, y + py * pixelSize, pixelSize, pixelSize);
+                    }
+                });
+            });
+        }
+
+        function drawPixelBird(x, y, frame) {
+            const pixelSize = 2;
+            const wingFlap = Math.sin(frame * 0.15) > 0;
+
+            // Body
+            ctx.fillStyle = '#4169E1';
+            ctx.fillRect(x, y, 4, 4);
+            ctx.fillStyle = '#FFD700';
+            ctx.fillRect(x + 4, y + 2, 2, 2); // Beak
+
+            // Wings
+            if (wingFlap) {
+                ctx.fillStyle = '#4169E1';
+                ctx.fillRect(x - 2, y, 2, 2);
+                ctx.fillRect(x + 4, y, 2, 2);
+            } else {
+                ctx.fillRect(x - 1, y + 2, 2, 2);
+                ctx.fillRect(x + 3, y + 2, 2, 2);
+            }
+        }
+
+        // Frutiger Aero Background (Vista/7 style)
+        function drawAeroBackground() {
+            // Soft gradient sky
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#87CEEB');
+            gradient.addColorStop(0.6, '#B0E0E6');
+            gradient.addColorStop(1, '#E0F6FF');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Soft clouds (smooth, not pixel art)
+            cloudOffset += 0.3;
+            if (cloudOffset > canvas.width) cloudOffset = -150;
+
+            ctx.globalAlpha = 0.7;
+            drawSmoothCloud(cloudOffset, 60, 100, 40);
+            drawSmoothCloud(cloudOffset + 250, 120, 120, 50);
+            drawSmoothCloud(cloudOffset + 500, 80, 90, 35);
+            ctx.globalAlpha = 1.0;
+
+            // Grass with gradient
+            const grassGradient = ctx.createLinearGradient(0, canvas.height - 100, 0, canvas.height);
+            grassGradient.addColorStop(0, '#90EE90');
+            grassGradient.addColorStop(1, '#7FBA00');
+            ctx.fillStyle = grassGradient;
+            ctx.fillRect(0, canvas.height - 100, canvas.width, 100);
+
+            // Smooth flowers
+            ctx.globalAlpha = 0.8;
+            for (let i = 0; i < 10; i++) {
+                const x = 50 + i * 75;
+                const y = canvas.height - 50 - Math.random() * 20;
+                drawSmoothFlower(x, y, ['#FF69B4', '#FFD700', '#9370DB', '#00CED1'][i % 4]);
+            }
+            ctx.globalAlpha = 1.0;
+        }
+
+        function drawSmoothCloud(x, y, width, height) {
+            ctx.fillStyle = '#FFFFFF';
             ctx.beginPath();
-            ctx.moveTo(x, y - 70);
-            ctx.lineTo(x - 25, y - 30);
-            ctx.lineTo(x + 25, y - 30);
-            ctx.closePath();
+            ctx.ellipse(x, y, width/2, height/2, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(x + width/3, y - height/3, width/3, height/3, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(x - width/3, y, width/2.5, height/2.5, 0, 0, Math.PI * 2);
             ctx.fill();
         }
 
-        function drawBush(x, y) {
-            ctx.fillStyle = '#32CD32';
+        function drawSmoothFlower(x, y, color) {
+            // Petals
+            ctx.fillStyle = color;
+            for (let i = 0; i < 6; i++) {
+                const angle = (Math.PI * 2 * i) / 6;
+                ctx.beginPath();
+                ctx.ellipse(x + Math.cos(angle) * 8, y + Math.sin(angle) * 8, 6, 4, angle, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Center
+            ctx.fillStyle = '#FFD700';
             ctx.beginPath();
-            ctx.ellipse(x, y, 20, 12, 0, 0, Math.PI * 2);
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
             ctx.fill();
+
+            // Stem
+            ctx.strokeStyle = '#7FBA00';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y + 20);
+            ctx.stroke();
         }
 
-        function drawForestAnimal(emoji, x, y) {
-            ctx.font = '16px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText(emoji, x, y);
+        // Y2K Edgy Background (Cyber/Matrix style)
+        function drawY2KBackground() {
+            // Dark cyber background
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#000000');
+            gradient.addColorStop(0.5, '#0a0014');
+            gradient.addColorStop(1, '#000000');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Grid floor
+            ctx.strokeStyle = 'rgba(0, 255, 255, 0.2)';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += 40) {
+                ctx.beginPath();
+                ctx.moveTo(x, canvas.height - 100);
+                ctx.lineTo(canvas.width / 2 + (x - canvas.width / 2) * 1.5, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = canvas.height - 100; y < canvas.height; y += 20) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
+            // Matrix code rain effect
+            ctx.font = '12px monospace';
+            ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
+            for (let i = 0; i < 20; i++) {
+                const x = (backgroundAnimFrame * 5 + i * 40) % canvas.width;
+                for (let j = 0; j < 10; j++) {
+                    const y = (backgroundAnimFrame + j * 30) % (canvas.height - 100);
+                    const char = String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96));
+                    ctx.fillText(char, x, y);
+                }
+            }
+
+            // Scan lines
+            ctx.strokeStyle = 'rgba(0, 255, 255, 0.05)';
+            ctx.lineWidth = 2;
+            for (let y = 0; y < canvas.height; y += 4) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
+            // Neon city silhouette
+            ctx.fillStyle = '#000000';
+            for (let i = 0; i < 10; i++) {
+                const buildingX = i * 80;
+                const buildingHeight = 100 + Math.random() * 100;
+                ctx.fillRect(buildingX, canvas.height - buildingHeight, 70, buildingHeight);
+
+                // Neon windows
+                ctx.fillStyle = Math.random() > 0.5 ? '#FF1493' : '#00FFFF';
+                for (let w = 0; w < 5; w++) {
+                    for (let h = 0; h < buildingHeight / 20; h++) {
+                        if (Math.random() > 0.5) {
+                            ctx.fillRect(buildingX + 10 + w * 10, canvas.height - buildingHeight + h * 15, 6, 10);
+                        }
+                    }
+                }
+                ctx.fillStyle = '#000000';
+            }
         }
 
         function updateScore() {
@@ -1155,6 +2678,7 @@
             if (newLevel > level) {
                 level = newLevel;
                 updateLevel();
+                playLevelUpSound();
                 updateStatus(`Level Up! Now at Level ${level}`);
             }
         }
@@ -1173,6 +2697,9 @@
 
         function gameOver() {
             gameRunning = false;
+            stopBackgroundMusic();
+            playGameOverSound();
+
             const previousHighScore = parseInt(localStorage.getItem('kittyBounce98HighScore') || 0);
             const isNewHighScore = score > previousHighScore;
 
@@ -1241,8 +2768,8 @@
         }
 
         function gameLoop() {
-            if (!gameRunning) {
-                if (animationId) {
+            if (!gameRunning || gamePaused) {
+                if (!gameRunning && animationId) {
                     cancelAnimationFrame(animationId);
                     animationId = null;
                 }
@@ -1255,10 +2782,12 @@
             updatePaddle();
             updateKitties();
             updateCollectibles();
+            updateParticles();
 
             drawCollectibles();
             drawKitties();
             drawPaddle();
+            drawParticles();
 
             animationId = requestAnimationFrame(gameLoop);
         }
